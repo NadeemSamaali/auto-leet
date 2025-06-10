@@ -4,11 +4,11 @@ import requests
 LEETCODE_SESSION = ""
 CSRFTOKEN = ""
 
-# Request Header
+# Headers
 headers = {
     "cookie": f"LEETCODE_SESSION={LEETCODE_SESSION}; csrftoken={CSRFTOKEN};",
-    "x-csrfroken": CSRFTOKEN,
-    "referer": f"https://leetcode.com/problems/{slug}",
+    "x-csrftoken": CSRFTOKEN,
+    "referer": "https://leetcode.com/submissions/",
     "User-Agent": "Mozilla/5.0"
 }
 
