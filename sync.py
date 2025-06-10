@@ -18,10 +18,23 @@ proxies = {
     "https":"",
 }
 
+def get_submission_metadata(sub) : 
+    dir_header = f'{sub["question_id"]}-{sub["title_slug"]}'
+    commit_message = f'Runtime : {sub["runtime"]} | Memory : {sub["memory"]}'
+    language = sub["lang_name"]
+    code = sub["code"]
+
+    return {"dir_header" : dir_header,
+            "code" : code,
+            "commit_message" : commit_message,
+            "language" : language
+            }
+
 # Pagination
 offset = 0
-limit = 20
+limit = 10
 has_next = True
+fetched_submissions = []
 
 seen_problems = set()  # keep track of problems with accepted submissions found
 
@@ -32,7 +45,7 @@ while has_next:
     if response.status_code != 200:
         print("Failed to fetch submissions:", response.status_code)
         print(response.text)
-        break
+        continue
 
     data = response.json()
     submissions = data.get("submissions_dump", [])
@@ -42,13 +55,7 @@ while has_next:
         if sub["status_display"] == "Accepted" and slug not in seen_problems:
             seen_problems.add(slug)
 
-            print("=== Most Recent Accepted Submission ===")
-            print("Title:", sub["title"])
-            print("Slug:", slug)
-            print("Language:", sub["lang"])
-            print("Timestamp:", sub["timestamp"])
-            print("Code:\n", sub["code"])
-            print("=" * 40)
+            fetched_submissions.append(get_submission_metadata(sub))
 
     has_next = data.get("has_next", False)
     offset += limit
