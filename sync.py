@@ -3,7 +3,6 @@ import requests
 # User information
 LEETCODE_SESSION = ""
 CSRFTOKEN = ""
-slug = ""
 
 # Request Header
 headers = {
@@ -19,19 +18,37 @@ proxies = {
     "https":"",
 }
 
-# Request
-url = f"https://leetcode.com/api/submissions/{slug}/"
-response = requests.get(url, headers=headers, proxies=proxies)
-data = response.json()
+# Pagination
+offset = 0
+limit = 20
+has_next = True
 
-if response.status_code == 200:
+seen_problems = set()  # keep track of problems with accepted submissions found
+
+while has_next:
+    url = f"https://leetcode.com/api/submissions/?offset={offset}&limit={limit}"
+    response = requests.get(url, headers=headers, proxies=proxies)
+
+    if response.status_code != 200:
+        print("Failed to fetch submissions:", response.status_code)
+        print(response.text)
+        break
+
     data = response.json()
-    for sub in data["submissions_dump"]:
-        if sub["status_display"] == "Accepted":
-            print("Found Accepted Submission")
+    submissions = data.get("submissions_dump", [])
+
+    for sub in submissions:
+        slug = sub["title_slug"]
+        if sub["status_display"] == "Accepted" and slug not in seen_problems:
+            seen_problems.add(slug)
+
+            print("=== Most Recent Accepted Submission ===")
+            print("Title:", sub["title"])
+            print("Slug:", slug)
             print("Language:", sub["lang"])
+            print("Timestamp:", sub["timestamp"])
             print("Code:\n", sub["code"])
-            break
-else:
-    print("Failed:", response.status_code)
-    print(response.text)
+            print("=" * 40)
+
+    has_next = data.get("has_next", False)
+    offset += limit
