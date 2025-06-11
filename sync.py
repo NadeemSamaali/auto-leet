@@ -130,8 +130,6 @@ limit = 10
 has_next = True
 fetched_submissions = []
 
-#seen_problems = set()  # keep track of problems with accepted submissions found
-
 while has_next:
     url = f"https://leetcode.com/api/submissions/?offset={offset}&limit={limit}"
     response = requests.get(url, headers=headers, proxies=proxies)
@@ -144,8 +142,7 @@ while has_next:
 
     for sub in submissions:
         slug = sub["title_slug"]
-        if sub["status_display"] == "Accepted" : #and slug not in seen_problems:
-            #seen_problems.add(slug)
+        if sub["status_display"] == "Accepted" : 
             fetched_submissions.append(get_submission_metadata(sub))
 
     has_next = data.get("has_next", False)
@@ -169,11 +166,10 @@ for sub in fetched_submissions :
     file_path_readme.parent.mkdir(parents=True, exist_ok=True)
     file_path_readme.write_text(readme, encoding="utf-8")
 
-    repo.git.add(rel_path)
-    repo.index.commit(commit_message)
     repo.git.add(str(file_path_readme.relative_to(temp_path)))
     repo.index.commit("Added submission README file")
-
+    repo.git.add(rel_path)
+    repo.index.commit(commit_message)
 
     # Push
     repo.remote().push()
