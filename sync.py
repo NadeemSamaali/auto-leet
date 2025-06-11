@@ -1,8 +1,10 @@
 import requests
+import os
+import tempfile
 
-# User information
-LEETCODE_SESSION = ""
-CSRFTOKEN = ""
+# Leetcode user information
+LEETCODE_SESSION = os.getenv("LEETCODE_SESSION")
+CSRFTOKEN = os.getenv("CSRFTOKEN")
 
 # Headers
 headers = {
@@ -59,3 +61,16 @@ while has_next:
 
     has_next = data.get("has_next", False)
     offset += limit
+
+class git_handler : 
+
+    def __init__(self) :
+        # Github user information
+        GIT_PAT = os.getenv("GIT_PAT")
+        REPO_URL = os.getenv("REPO_URL")
+
+        repo_name = REPO_URL.split("/")[-1]
+        repo_owner = REPO_URL.split("/")[-2]
+
+        git_url = f'https://{GIT_PAT}:x-oauth-basic@github.com/{repo_owner}/{repo_name}.git'        
+
