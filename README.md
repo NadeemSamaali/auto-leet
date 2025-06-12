@@ -1,4 +1,4 @@
-# AutoLeet : Leetcode to GitHub synchronization tool
+# AutoLeet : LeetCode to GitHub synchronization tool
 
 This repository automatically syncs your accepted LeetCode submissions to GitHub, organizing them by problem ID and including problem descriptions.
 
