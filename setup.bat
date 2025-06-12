@@ -1,6 +1,6 @@
+@echo off
 REM     FOR WINDOWS SYSTEMS
 
-@echo off
 REM Exporting environment variables
 echo Exporting environment variables
 set "LEETCODE_SESSION="
