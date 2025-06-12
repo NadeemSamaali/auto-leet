@@ -4,11 +4,18 @@ This repository automatically syncs your accepted LeetCode submissions to GitHub
 
 ## Quick Start
 
-1. **Edit the setup file** for your OS:
+1. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Edit the setup file** for your OS:
    - Linux/macOS: `setup.sh`
    - Windows: `setup.bat`
 
-2. **Fill in your credentials**:
+3. **Fill in your credentials**:
+    
+   `setup.sh` :
    ```bash
    # LeetCode
    export LEETCODE_SESSION="your_session_cookie"
@@ -19,7 +26,19 @@ This repository automatically syncs your accepted LeetCode submissions to GitHub
    export REPO_URL="https://github.com/yourusername/yourrepo.git"
    ```
 
-3. **Run it!**  
+   `setup.bat` :
+   ```bat
+   @echo off
+   REM LeetCode
+   set "LEETCODE_SESSION=your_session_cookie"
+   set "CSRFTOKEN=your_csrf_token"
+
+   REM GitHub
+   set "GIT_PAT=your_github_personal_access_token"
+   set "REPO_URL=https://github.com/yourusername/yourrepo.git"
+   ```
+
+4. **Run it!**  
    Linux/macOS:
    ```bash
    chmod +x setup.sh && ./setup.sh
@@ -64,9 +83,18 @@ That's it! Your LeetCode solutions will appear in the repo organized by problem.
 
 3. **Proxy issues?**  
    Set these in the setup file if needed:
+   
+   `setup.sh` :
    ```bash
    export HTTP_PROXY="your_proxy"
    export HTTPS_PROXY="your_proxy"
+   ```
+
+   `setup.bat` :
+   ```bat
+   echo Setting up proxy
+   set "HTTP_PROXY=your_proxy"
+   set "HTTPS_PROXY=your_proxy"
    ```
 
 ---
