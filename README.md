@@ -92,7 +92,6 @@ That's it! Your LeetCode solutions will appear in the repo organized by problem.
 
    `setup.bat` :
    ```bat
-   echo Setting up proxy
    set "HTTP_PROXY=your_proxy"
    set "HTTPS_PROXY=your_proxy"
    ```
